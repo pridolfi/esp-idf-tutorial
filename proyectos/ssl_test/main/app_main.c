@@ -12,10 +12,27 @@
 #include "freertos/task.h"
 #include "esp_system.h"
 #include "esp_spi_flash.h"
+#include "esp_err.h"
+#include "nvs_flash.h"
+#include "esp_tls.h"
+#include "esp_log.h"
+
+#include "wifi.h"
+
+static const char *TAG = "app_main";
+
+extern const uint8_t esp32_crt_start[] asm("_binary_esp32_crt_start");
+extern const uint8_t esp32_crt_end[]   asm("_binary_esp32_crt_end");
+
+extern const uint8_t esp32_key_start[] asm("_binary_esp32_key_start");
+extern const uint8_t esp32_key_end[]   asm("_binary_esp32_key_end");
+
+extern const uint8_t server_crt_start[] asm("_binary_server_crt_start");
+extern const uint8_t server_crt_end[]   asm("_binary_server_crt_end");
 
 void app_main(void)
 {
-    printf("Hello world!\n");
+    printf("ESP32 TLS/SSL connection example.\n");
 
     /* Print chip information */
     esp_chip_info_t chip_info;
@@ -33,11 +50,38 @@ void app_main(void)
 
     printf("Minimum free heap size: %d bytes\n", esp_get_minimum_free_heap_size());
 
-    for (int i = 10; i >= 0; i--) {
-        printf("Restarting in %d seconds...\n", i);
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+    //Initialize NVS, needed for WiFi
+    esp_err_t ret = nvs_flash_init();
+    if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
+      ESP_ERROR_CHECK(nvs_flash_erase());
+      ret = nvs_flash_init();
     }
-    printf("Restarting now.\n");
-    fflush(stdout);
-    esp_restart();
+    ESP_ERROR_CHECK(ret);
+
+    wifi_init_sta();
+
+    esp_tls_cfg_t cfg = {
+        .cacert_buf = (const unsigned char *) server_crt_start,
+        .cacert_bytes = server_crt_end - server_crt_start,
+        .common_name = "server",
+        .clientcert_buf = (const unsigned char *) esp32_crt_start,
+        .clientcert_bytes = esp32_crt_end - esp32_crt_start,
+        .clientkey_buf = (const unsigned char *) esp32_key_start,
+        .clientkey_bytes = esp32_key_end - esp32_key_start,
+        .timeout_ms = 10000,
+    };
+
+    esp_tls_t * tls = esp_tls_conn_http_new("https://192.168.1.14:8443", &cfg);
+
+    if (tls != NULL) {
+        ESP_LOGI(TAG, "Connection established...");
+        esp_tls_conn_write(tls, "Hello from ESP32!\n", 18);
+        vTaskDelay(1000/portTICK_PERIOD_MS);
+        uint8_t buffer[256];
+        bzero(buffer, 256);
+        esp_tls_conn_read(tls, buffer, 256);
+        ESP_LOGI(TAG, "Server says: %s", buffer);
+    } else {
+        ESP_LOGE(TAG, "Connection failed...");
+    }
 }

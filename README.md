@@ -179,3 +179,12 @@ cd ~/esp-idf-tutorial # cambia la ruta según dónde hayas creado tu carpeta de 
 # nos posicionamos en la carpeta raíz de la app
 cd proyectos/ssl_test
 ```
+
+Generemos certificados para el ejemplo:
+```shell
+export CERT_NAME=server
+openssl req -new -x509 -days 365 -nodes -out main/$CERT_NAME.crt -keyout main/$CERT_NAME.key -subj "/CN=$CERT_NAME"
+
+export CERT_NAME=esp32
+openssl req -new -x509 -days 365 -nodes -out main/$CERT_NAME.crt -keyout main/$CERT_NAME.key -subj "/CN=$CERT_NAME"
+```

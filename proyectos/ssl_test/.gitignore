@@ -6,3 +6,7 @@ build/
 sdkconfig
 sdkconfig.old
 .vscode
+
+# ignore certificates and keys
+*.crt
+*.key
