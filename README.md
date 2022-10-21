@@ -61,13 +61,18 @@ Go to the project directory and run:
   idf.py build
 ```
 
-Ahora compilemos y ejecutemos nuestra primer aplicación! Partiendo de la carpeta `esp-idf` nos posicionamos en el ejemplo `hello_world`, lo compilamos y lo descargamos a la placa de desarrollo:
+Ahora compilemos y ejecutemos nuestra primer aplicación! 🥳 
+
+Partiendo de la carpeta `esp-idf` nos posicionamos en el ejemplo `hello_world`, lo compilamos y lo descargamos a la placa de desarrollo:
+
 ```shell
 cd examples/get-started/hello_world/
 idf.py build # si este paso falla es porque no configuraste las variables de entorno, recuerda el paso . ./export.sh.
 
 idf.py flash monitor # grabamos el binario en la memoria flash y abrimos el monitor del puerto serial para observar la salida del programa.
 ```
+
+Ahora que todo funciona hablemos del contenido de `hello_world_main.c` y la salida observada en la consola. 👩‍💻
 ## Creando nuestra propia aplicación básica
 
 ## Algo un poco más divertido: Ejemplo de conexión SSL
