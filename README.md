@@ -111,6 +111,53 @@ Restarting now.
 ```
 
 Ahora que todo funciona hablemos del contenido de `hello_world_main.c` y la salida observada en la consola. 👩‍💻
-## Creando nuestra propia aplicación básica
+## Creando nuestra propia aplicación
+
+Para crear nuestra propia aplicación basta con copiar cualquier ejemplo de `esp-idf` a una carpeta personal fuera de ese repositorio. En este tutorial usaremos la carpeta `proyectos`:
+
+```shell
+cd ~/esp-idf-tutorial # cambia la ruta según dónde hayas creado tu carpeta de trabajo
+
+# usaremos hello_world como base para nuestra primer aplicación
+cp -r esp-idf/examples/get-started/hello_world/ proyectos/mi_primer_app
+
+# nos posicionamos en la carpeta raíz de la app
+cd proyectos/mi_primer_app
+```
+
+Vamos a crear un repositorio git para hacer un seguimiento de los cambios que haremos y luego abramos nuestro editor favorito:
+```shell
+git init
+code .
+```
+
+Agrega un archivo `.gitignore` con el siguiente contenido para no versionar los archivos auxiliares y de compilación:
+```
+# https://github.com/github/gitignore/blob/main/community/embedded/esp-idf.gitignore
+# gitignore template for esp-idf, the official development framework for ESP32
+# https://github.com/espressif/esp-idf
+
+build/
+sdkconfig
+sdkconfig.old
+```
+
+Cambia los siguientes archivos para cambiar `hello_world` por `mi_app`:
+- `main/hello_world_main.c` renombra a `main/app_main.c`
+- Dentro de `main/CMakeLists.txt` cambia `hello_world_main.c` por `app_main.c`.
+- Dentro de `CMakeLists.txt` cambia `project(hello_world)` por `project(mi_app)`.
+- Modifica `main/app_main.c` a gusto. 🤓
+
+Compila, graba el programa en la memoria y ejecuta:
+```shell
+idf.py fullclean
+idf.py build flash monitor
+```
+
+Finalmente, guarda los cambios en el repositorio de tu app:
+```shell
+git add --all
+git commit -m"mi primer app con ESP32!"
+```
 
 ## Algo un poco más divertido: Ejemplo de conexión SSL
