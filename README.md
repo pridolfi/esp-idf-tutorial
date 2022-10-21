@@ -171,3 +171,11 @@ git remote add origin https://url/de/tu/repositorio.git
 git push -u origin master # puede que debas usar 'main' en lugar de 'master', dependiendo del nombre de tu branch principal.
 ```
 ## Algo un poco más divertido: Ejemplo de conexión SSL
+
+El ejemplo se encuentra en la carpeta `proyectos/ssl_test`:
+```shell
+cd ~/esp-idf-tutorial # cambia la ruta según dónde hayas creado tu carpeta de trabajo
+
+# nos posicionamos en la carpeta raíz de la app
+cd proyectos/ssl_test
+```
