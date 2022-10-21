@@ -141,6 +141,7 @@ Agrega un archivo `.gitignore` con el siguiente contenido para no versionar los 
 # gitignore template for esp-idf, the official development framework for ESP32
 # https://github.com/espressif/esp-idf
 
+.vscode/
 build/
 sdkconfig
 sdkconfig.old
