@@ -82,11 +82,15 @@ Go to the project directory and run:
 
 Ahora compilemos y ejecutemos nuestra primer aplicación. 🥳 
 
-Partiendo de la carpeta `esp-idf` nos posicionamos en el ejemplo `hello_world`, lo compilamos y lo descargamos a la placa de desarrollo:
+Partiendo de la carpeta `esp-idf` nos posicionamos en el ejemplo `hello_world`, lo compilamos:
 
 ```shell
 cd examples/get-started/hello_world/
 idf.py build # si este paso falla es porque no configuraste las variables de entorno, recuerda el paso . ./export.sh.
+```
+
+Luego podremos conectar la placa a la PC y grabar la memoria flash del microcontrolador con nuestro programa:
+```shell
 idf.py flash monitor # grabamos el binario en la memoria flash y abrimos el monitor del puerto serial para observar la salida del programa.
 ```
 Para salir del monitor utilizar <kbd>Ctrl</kbd>+<kbd>]</kbd>, o bien <kbd>Ctrl</kbd>+<kbd>Alt Gr</kbd>+<kbd>]</kbd> según el idioma del teclado.
