@@ -17,7 +17,8 @@ Este es un tutorial paso a paso para configurar el framework ESP-IDF que te perm
 Abre una terminal y ejecuta:
 
 ```shell
-sudo apt-get install git wget flex bison gperf python3 python3-pip python3-setuptools cmake ninja-build ccache libffi-dev libssl-dev dfu-util libusb-1.0-0
+sudo apt update
+sudo apt install git wget flex bison gperf python3 python3-pip python3-setuptools cmake ninja-build ccache libffi-dev libssl-dev dfu-util libusb-1.0-0
 ```
 
 Probablemente necesites dar permiso a tu usuario para acceder a dispositivos de tipo USB-Serial. Basta con agregar tu usuario al grupo `dialout` y luego reiniciar tu sesión o bien reiniciar tu PC:
