@@ -163,6 +163,6 @@ git commit -m"mi primer app con ESP32!"
 Puedes crear tu propio repositorio en GitHub o similar para presumir de tu aplicación. Luego sigue estos comandos para publicarla:
 ```shell
 git remote add origin https://url/de/tu/repositorio.git
-git push -u origin master # puede que debas usar main en lugar de master, dependiendo del nombre de tu branch principal.
+git push -u origin master # puede que debas usar 'main' en lugar de 'master', dependiendo del nombre de tu branch principal.
 ```
 ## Algo un poco más divertido: Ejemplo de conexión SSL
