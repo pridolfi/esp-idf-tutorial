@@ -14,7 +14,7 @@ Este es un tutorial paso a paso para configurar el framework ESP-IDF que te perm
 
 ## Creación de la carpeta de trabajo
 
-Crearemos una carpeta para trabajar a lo largo del tutorial, usando este repositorio como base.
+Crearemos una carpeta para trabajar a lo largo del tutorial usando este repositorio como base.
 ```shell
 cd # goto home
 git clone https://github.com/pridolfi/esp-idf-tutorial.git
@@ -83,7 +83,7 @@ cd examples/get-started/hello_world/
 idf.py build # si este paso falla es porque no configuraste las variables de entorno, recuerda el paso . ./export.sh.
 idf.py flash monitor # grabamos el binario en la memoria flash y abrimos el monitor del puerto serial para observar la salida del programa.
 ```
-Para salir del monitor utilizar <kbd>Ctrl</kbd>+<kbd>]</kbd> o `Ctrl+Alt Gr+]` según el idioma de tu teclado.
+Para salir del monitor utilizar <kbd>Ctrl</kbd>+<kbd>]</kbd>, o bien <kbd>Ctrl</kbd>+<kbd>Alt Gr</kbd>+<kbd>]</kbd> según el idioma del teclado.
 
 Este ejemplo trivial espera 10 segundos antes de reiniciar el microcontrolador y volver a ejecutar el programa. Deberíamos observar algo así entre otras cosas:
 ```
