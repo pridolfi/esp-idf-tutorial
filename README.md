@@ -7,21 +7,14 @@ Este es un tutorial paso a paso para configurar el framework ESP-IDF que te perm
 ## Qué necesitas
 
 - Una PC con un SO Ubuntu o similar.
-- Un buen editor de texto. Recomiendo [Visual Studio Code](https://code.visualstudio.com/).
+- Un buen editor de texto. Recomiendo [Visual Studio Code](https://code.visualstudio.com/) aunque `vim` también servirá. 😉
 - Una placa de desarrollo con el microcontrolador ESP32 ([modelos disponibles](https://www.espressif.com/en/products/devkits)).
 - Un cable USB que te permita conectar la placa de desarrollo a la PC.
 - Si quieres probar el ejemplo SSL contra un servidor en la nube necesitarás sus credenciales de acceso. También puedes probarlo con tu PC actuando como servidor.
 
-## Creación de la carpeta de trabajo
-
-Crearemos una carpeta para trabajar a lo largo del tutorial usando este repositorio como base.
-```shell
-cd # goto home
-git clone https://github.com/pridolfi/esp-idf-tutorial.git
-cd esp-idf-tutorial
-```
-
 ## Instalación de dependencias
+
+Abre una terminal y ejecuta:
 
 ```shell
 sudo apt-get install git wget flex bison gperf python3 python3-pip python3-setuptools cmake ninja-build ccache libffi-dev libssl-dev dfu-util libusb-1.0-0
@@ -33,9 +26,19 @@ Probablemente necesites dar permiso a tu usuario para acceder a dispositivos de 
 sudo adduser $USER dialout
 ```
 
+## Creación de la carpeta de trabajo
+
+Crearemos una carpeta para trabajar a lo largo del tutorial usando este repositorio como base.
+
+```shell
+cd # ir a tu home, o bien modifica para ir a la carpeta que prefieras
+git clone https://github.com/pridolfi/esp-idf-tutorial.git
+cd esp-idf-tutorial
+```
+
 ## Instalación del framework ESP-IDF
 
-El repositorio de ESP-IDF es bastante grande y posee muchos submódulos. El siguiente paso puede demorar varios minutos.
+El repositorio de ESP-IDF es grande (~1.5 GB) y posee muchos submódulos. El siguiente paso puede demorar varios minutos.
 
 ```shell
 git clone -b v4.4.2 --recursive https://github.com/espressif/esp-idf.git
@@ -58,6 +61,8 @@ Naveguemos por la carpeta `esp-idf` para comentar su contenido, para ello podemo
 ```shell
 code . # abre VS Code en la carpeta sobre la que nos encontramos.
 ```
+Sí, también puedes usar tu navegador/editor preferido. 😁
+
 ## Configuración, compilación y ejecución de una aplicación básica
 
 Para poder utilizar las herramientas de ESP-IDF es necesario configurar variables de entorno adicionales. Debes hacerlo siempre que abras una terminal nueva. Dirígete a la carpeta `esp-idf` que creamos en el paso anterior y ejecuta:
@@ -74,7 +79,7 @@ Go to the project directory and run:
   idf.py build
 ```
 
-Ahora compilemos y ejecutemos nuestra primer aplicación! 🥳 
+Ahora compilemos y ejecutemos nuestra primer aplicación. 🥳 
 
 Partiendo de la carpeta `esp-idf` nos posicionamos en el ejemplo `hello_world`, lo compilamos y lo descargamos a la placa de desarrollo:
 
