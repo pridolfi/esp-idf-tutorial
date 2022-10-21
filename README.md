@@ -12,6 +12,15 @@ Este es un tutorial paso a paso para configurar el framework ESP-IDF que te perm
 - Un cable USB que te permita conectar la placa de desarrollo a la PC.
 - Si quieres probar el ejemplo SSL contra un servidor en la nube necesitarás sus credenciales de acceso. También puedes probarlo con tu PC actuando como servidor.
 
+## Creación de la carpeta de trabajo
+
+Crearemos una carpeta para trabajar a lo largo del tutorial, usando este repositorio como base.
+```shell
+cd # goto home
+git clone https://github.com/pridolfi/esp-idf-tutorial.git
+cd esp-idf-tutorial
+```
+
 ## Instalación de dependencias
 
 ```shell
@@ -45,6 +54,10 @@ All done! You can now run:
   . ./export.sh
 ```
 
+Naveguemos por la carpeta `esp-idf` para comentar su contenido, para ello podemos usar VS Code:
+```shell
+code . # abre VS Code en la carpeta sobre la que nos encontramos.
+```
 ## Configuración, compilación y ejecución de una aplicación básica
 
 Para poder utilizar las herramientas de ESP-IDF es necesario configurar variables de entorno adicionales. Debes hacerlo siempre que abras una terminal nueva. Dirígete a la carpeta `esp-idf` que creamos en el paso anterior y ejecuta:
@@ -68,8 +81,27 @@ Partiendo de la carpeta `esp-idf` nos posicionamos en el ejemplo `hello_world`, 
 ```shell
 cd examples/get-started/hello_world/
 idf.py build # si este paso falla es porque no configuraste las variables de entorno, recuerda el paso . ./export.sh.
-
 idf.py flash monitor # grabamos el binario en la memoria flash y abrimos el monitor del puerto serial para observar la salida del programa.
+```
+Para salir del monitor utilizar <kbd>Ctrl</kbd>+<kbd>]</kbd> o `Ctrl+Alt Gr+]` según el idioma de tu teclado.
+
+Este ejemplo trivial espera 10 segundos antes de reiniciar el microcontrolador y volver a ejecutar el programa. Deberíamos observar algo así entre otras cosas:
+```
+Hello world!
+This is esp32 chip with 2 CPU core(s), WiFi/BT/BLE, silicon revision 1, 2MB external flash
+Minimum free heap size: 295180 bytes
+Restarting in 10 seconds...
+Restarting in 9 seconds...
+Restarting in 8 seconds...
+Restarting in 7 seconds...
+Restarting in 6 seconds...
+Restarting in 5 seconds...
+Restarting in 4 seconds...
+Restarting in 3 seconds...
+Restarting in 2 seconds...
+Restarting in 1 seconds...
+Restarting in 0 seconds...
+Restarting now.
 ```
 
 Ahora que todo funciona hablemos del contenido de `hello_world_main.c` y la salida observada en la consola. 👩‍💻
