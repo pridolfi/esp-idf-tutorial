@@ -188,3 +188,44 @@ openssl req -new -x509 -days 365 -nodes -out main/$CERT_NAME.crt -keyout main/$C
 export CERT_NAME=esp32
 openssl req -new -x509 -days 365 -nodes -out main/$CERT_NAME.crt -keyout main/$CERT_NAME.key -subj "/CN=$CERT_NAME"
 ```
+
+Edita la línea 22 de `app_main.c` para reflejar la URL de tu servidor. Si usas tu PC, debe ser la IP de la PC dentro de la red Wi-Fi a la que está conectada, junto con el ESP32.
+
+```c
+#define SERVER_URL "https://192.168.1.14:8443"
+```
+
+Ingresa a la configuración de la aplicación con `idf.py menuconfig` y en el menú `Application Wi-Fi Configuration` configura el SSID y el password de la red a la que se conectará el ESP32.
+
+Luego podemos poner a funcionar el servidor desde la terminal del mismo. Deberíamos observar algo como lo siguiente:
+```shell
+$ python3 server.py 
+Waiting for connection...
+```
+
+Ahora conectamos nuestro ESP32, compilamos, grabamos y ejecutamos el programa. Si abriste una terminal nueva recuerda hacer `. export.sh` en el directorio `esp-idf` antes de usar las herramientas de compilación.
+```shell
+idf.py build flash monitor
+```
+
+Si todo va bien observaremos esto en el monitor serie del ESP32:
+```
+I (1623) esp_netif_handlers: sta ip: 192.168.63.79, mask: 255.255.255.0, gw: 192.168.63.2
+I (1623) wifi station: got ip:192.168.63.79
+I (1623) wifi station: connected to ap SSID:ESP32Net
+I (4663) app_main: Connection established...
+I (5663) app_main: Server says: You're welcome
+```
+
+Y en el servidor:
+```
+Connected by ('192.168.63.79', 54455) esp32
+Client Says: b'Hello from ESP32!\n'
+Waiting for connection...
+```
+
+¡Eso es todo! Logramos establecer una conexión segura con TLS/SSL entre el ESP32 y otro host en la nube. 🦾🎉
+
+## Conclusión
+
+¡Hemos llegado al final del tutorial! Espero que te haya sido útil para comenzar a desarrollar tus propias aplicaciones con esta plataforma. Por favor, hazme llegar tus comentarios y sugerencias.

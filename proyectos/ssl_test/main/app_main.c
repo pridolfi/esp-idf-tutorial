@@ -19,6 +19,8 @@
 
 #include "wifi.h"
 
+#define SERVER_URL "https://192.168.63.148:8443"
+
 static const char *TAG = "app_main";
 
 extern const uint8_t esp32_crt_start[] asm("_binary_esp32_crt_start");
@@ -29,6 +31,34 @@ extern const uint8_t esp32_key_end[]   asm("_binary_esp32_key_end");
 
 extern const uint8_t server_crt_start[] asm("_binary_server_crt_start");
 extern const uint8_t server_crt_end[]   asm("_binary_server_crt_end");
+
+void tls_test(void)
+{
+    esp_tls_cfg_t cfg = {
+        .cacert_buf = (const unsigned char *) server_crt_start,
+        .cacert_bytes = server_crt_end - server_crt_start,
+        .common_name = "server",
+        .clientcert_buf = (const unsigned char *) esp32_crt_start,
+        .clientcert_bytes = esp32_crt_end - esp32_crt_start,
+        .clientkey_buf = (const unsigned char *) esp32_key_start,
+        .clientkey_bytes = esp32_key_end - esp32_key_start,
+        .timeout_ms = 10000,
+    };
+
+    esp_tls_t * tls = esp_tls_conn_http_new(SERVER_URL, &cfg);
+
+    if (tls != NULL) {
+        ESP_LOGI(TAG, "Connection established...");
+        esp_tls_conn_write(tls, "Hello from ESP32!\n", 18);
+        vTaskDelay(1000/portTICK_PERIOD_MS);
+        uint8_t buffer[256];
+        bzero(buffer, 256);
+        esp_tls_conn_read(tls, buffer, 256);
+        ESP_LOGI(TAG, "Server says: %s", buffer);
+    } else {
+        ESP_LOGE(TAG, "Connection failed...");
+    }
+}
 
 void app_main(void)
 {
@@ -60,28 +90,5 @@ void app_main(void)
 
     wifi_init_sta();
 
-    esp_tls_cfg_t cfg = {
-        .cacert_buf = (const unsigned char *) server_crt_start,
-        .cacert_bytes = server_crt_end - server_crt_start,
-        .common_name = "server",
-        .clientcert_buf = (const unsigned char *) esp32_crt_start,
-        .clientcert_bytes = esp32_crt_end - esp32_crt_start,
-        .clientkey_buf = (const unsigned char *) esp32_key_start,
-        .clientkey_bytes = esp32_key_end - esp32_key_start,
-        .timeout_ms = 10000,
-    };
-
-    esp_tls_t * tls = esp_tls_conn_http_new("https://192.168.1.14:8443", &cfg);
-
-    if (tls != NULL) {
-        ESP_LOGI(TAG, "Connection established...");
-        esp_tls_conn_write(tls, "Hello from ESP32!\n", 18);
-        vTaskDelay(1000/portTICK_PERIOD_MS);
-        uint8_t buffer[256];
-        bzero(buffer, 256);
-        esp_tls_conn_read(tls, buffer, 256);
-        ESP_LOGI(TAG, "Server says: %s", buffer);
-    } else {
-        ESP_LOGE(TAG, "Connection failed...");
-    }
+    tls_test();
 }
