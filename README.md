@@ -6,6 +6,8 @@ Este es un tutorial paso a paso para configurar el framework ESP-IDF que te perm
 
 ## Qué necesitas
 
+![ESP32 board](https://raw.githubusercontent.com/pridolfi/lisa32/master/doc/lisa32_v0.1.0.jpeg)
+
 - Una PC con un SO Ubuntu o similar.
 - Un buen editor de texto. Recomiendo [Visual Studio Code](https://code.visualstudio.com/) aunque `vim` también servirá. 😉
 - Una placa de desarrollo con el microcontrolador ESP32 ([modelos disponibles](https://www.espressif.com/en/products/devkits)).
