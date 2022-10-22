@@ -172,6 +172,8 @@ git push -u origin master # puede que debas usar 'main' en lugar de 'master', de
 ```
 ## Algo un poco más divertido: Ejemplo de conexión SSL
 
+Este es un ejemplo muy sencillo para establecer una conexión SSL/TLS cifrada entre el ESP32 que actuará como cliente (mediante la aplicación que compilaremos) y un servidor básico escrito en Python (`server.py`), que podrás ejecutar en tu PC.
+
 El ejemplo se encuentra en la carpeta `proyectos/ssl_test`:
 ```shell
 cd ~/esp-idf-tutorial # cambia la ruta según dónde hayas creado tu carpeta de trabajo
@@ -189,13 +191,7 @@ export CERT_NAME=esp32
 openssl req -new -x509 -days 365 -nodes -out main/$CERT_NAME.crt -keyout main/$CERT_NAME.key -subj "/CN=$CERT_NAME"
 ```
 
-Edita la línea 22 de `app_main.c` para reflejar la URL de tu servidor. Si usas tu PC, debe ser la IP de la PC dentro de la red Wi-Fi a la que está conectada, junto con el ESP32.
-
-```c
-#define SERVER_URL "https://192.168.1.14:8443"
-```
-
-Ingresa a la configuración de la aplicación con `idf.py menuconfig` y en el menú `Application Wi-Fi Configuration` configura el SSID y el password de la red a la que se conectará el ESP32.
+Ingresa a la configuración de la aplicación con `idf.py menuconfig` y en el menú `Application Configuration` configura el SSID y el password de la red a la que se conectará el ESP32. También establece la URL del servidor al cual el ESP32 se conectará via SSL. Si ejecutarás el servidor básico `server.py` en tu PC deberás usar la dirección IP que la misma tiene en la red Wi-Fi, por ejemplo `https://192.168.63.70:8443`. El puerto 8443 es abierto por el programa `server.py`.
 
 Luego podemos poner a funcionar el servidor desde la terminal del mismo. Deberíamos observar algo como lo siguiente:
 ```shell
@@ -210,11 +206,11 @@ idf.py build flash monitor
 
 Si todo va bien observaremos esto en el monitor serie del ESP32:
 ```
-I (1623) esp_netif_handlers: sta ip: 192.168.63.79, mask: 255.255.255.0, gw: 192.168.63.2
-I (1623) wifi station: got ip:192.168.63.79
-I (1623) wifi station: connected to ap SSID:ESP32Net
-I (4663) app_main: Connection established...
-I (5663) app_main: Server says: You're welcome
+I (2123) esp_netif_handlers: sta ip: 192.168.63.79, mask: 255.255.255.0, gw: 192.168.63.2
+I (2123) wifi station: got ip:192.168.63.79
+I (2123) wifi station: connected to ap SSID:ESP32Net
+I (4643) app_main: Connection established to https://192.168.63.70:8443, sending hello message...
+I (5643) app_main: Server says: You're welcome
 ```
 
 Y en el servidor:
