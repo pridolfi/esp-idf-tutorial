@@ -30,6 +30,7 @@ def get_common_name(cert):
 
 with socket() as server:
     server.bind((ip, port))
+    print(f"Listening on {(ip, port)}")
     server.listen(1)
     while True:
         print('Waiting for connection...')
@@ -37,10 +38,11 @@ with socket() as server:
         try:
             with context.wrap_socket(connection, server_side=True) as tls:
                 peername = get_common_name(tls.getpeercert())
-                print(f'Connected by {address} {peername}')
+                print(f'Incoming connection from {address}.')
+                printi(f'Client peername is {peername}')
                 data = tls.recv(1024)
-                print(f'Client Says: {data}')
-                tls.sendall(b"You're welcome")
+                print(f'Client Says: {data}. Sending response...')
+                tls.sendall(b"Hi! How are you?")
         except SSLCertVerificationError as ex:
             print(ex) 
   
