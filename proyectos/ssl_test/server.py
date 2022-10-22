@@ -39,7 +39,7 @@ with socket() as server:
             with context.wrap_socket(connection, server_side=True) as tls:
                 peername = get_common_name(tls.getpeercert())
                 print(f'Incoming connection from {address}.')
-                printi(f'Client peername is {peername}')
+                print(f'Client peername is {peername}')
                 data = tls.recv(1024)
                 print(f'Client Says: {data}. Sending response...')
                 tls.sendall(b"Hi! How are you?")
