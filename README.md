@@ -193,6 +193,8 @@ openssl req -new -x509 -days 365 -nodes -out main/$CERT_NAME.crt -keyout main/$C
 
 Ingresa a la configuración de la aplicación con `idf.py menuconfig` y en el menú `Application Configuration` configura el SSID y el password de la red a la que se conectará el ESP32. También establece la URL del servidor al cual el ESP32 se conectará via SSL. Si ejecutarás el servidor básico `server.py` en tu PC deberás usar la dirección IP que la misma tiene en la red Wi-Fi, por ejemplo `https://192.168.63.70:8443`. El puerto 8443 es abierto por el programa `server.py`.
 
+![Menuconfig image](img/menuconfig.png)
+
 Luego podemos poner a funcionar el servidor desde la terminal del mismo. Deberíamos observar algo como lo siguiente:
 ```shell
 $ python3 server.py 
