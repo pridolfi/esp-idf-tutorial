@@ -7,15 +7,18 @@
    CONDITIONS OF ANY KIND, either express or implied.
 */
 #include <stdio.h>
+#include <strings.h>
+
 #include "sdkconfig.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_system.h"
-#include "esp_spi_flash.h"
 #include "esp_err.h"
 #include "nvs_flash.h"
 #include "esp_tls.h"
 #include "esp_log.h"
+#include "esp_chip_info.h"
+#include "esp_flash.h"
 
 #include "wifi.h"
 
@@ -43,9 +46,14 @@ void tls_test(void)
         .timeout_ms = 10000,
     };
 
-    esp_tls_t * tls = esp_tls_conn_http_new(CONFIG_SERVER_URL, &cfg);
+    esp_tls_t *tls = esp_tls_init();
+    if (!tls) {
+        ESP_LOGE(TAG, "Failed to allocate esp_tls handle!");
+        return;
+    }
+    int rv = esp_tls_conn_http_new_sync(CONFIG_SERVER_URL, &cfg, tls);
 
-    if (tls != NULL) {
+    if (rv == 1) {
         ESP_LOGI(TAG, "Connection established to %s, sending hello message...", CONFIG_SERVER_URL);
         esp_tls_conn_write(tls, "Hello from ESP32!\n", 18);
         vTaskDelay(1000/portTICK_PERIOD_MS);
@@ -73,10 +81,12 @@ void app_main(void)
 
     printf("silicon revision %d, ", chip_info.revision);
 
-    printf("%dMB %s flash\n", spi_flash_get_chip_size() / (1024 * 1024),
+    uint32_t flash_size;
+    esp_flash_get_size(NULL, &flash_size);
+    printf("%dMB %s flash\n", flash_size / (1024 * 1024),
             (chip_info.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
 
-    printf("Minimum free heap size: %d bytes\n", esp_get_minimum_free_heap_size());
+    printf("Minimum free heap size: %ld bytes\n", esp_get_minimum_free_heap_size());
 
     //Initialize NVS, needed for WiFi
     esp_err_t ret = nvs_flash_init();

@@ -2,7 +2,7 @@
 
 ## Introducción
 
-Este es un tutorial paso a paso para configurar el framework ESP-IDF que te permitirá escribir aplicaciones en lenguaje C para la familia de microcontroladores ESP32 de Espressif. Está basado en la documentación de la versión estable v4.4.2 que puedes encontrar [aquí](https://docs.espressif.com/projects/esp-idf/en/v4.4.2/esp32/index.html).
+Este es un tutorial paso a paso para configurar el framework ESP-IDF que te permitirá escribir aplicaciones en lenguaje C para la familia de microcontroladores ESP32 de Espressif. Está basado en la documentación de la versión estable v5.2.1 que puedes encontrar [aquí](https://docs.espressif.com/projects/esp-idf/en/v5.2.1/esp32/index.html).
 
 ## Qué necesitas
 
@@ -44,13 +44,13 @@ cd esp-idf-tutorial
 El repositorio de ESP-IDF es grande (~1.5 GB) y posee muchos submódulos. El siguiente paso puede demorar varios minutos.
 
 ```shell
-git clone -b v4.4.2 --recursive https://github.com/espressif/esp-idf.git
+git clone -b v5.2.1 --recursive https://github.com/espressif/esp-idf.git
 ```
 
 Luego entramos en la carpeta y ejecutamos el script de instalación:
 ```shell
 cd esp-idf
-./install.sh esp32
+./install.sh esp32,esp32-c3 # puedes especificar más de un microcontrolador
 ```
 
 Si todo sale bien, deberíamos observar un mensaje como este al final:
@@ -88,6 +88,7 @@ Partiendo de la carpeta `esp-idf` nos posicionamos en el ejemplo `hello_world`, 
 
 ```shell
 cd examples/get-started/hello_world/
+idf.py set-target esp32 # define aquí el microcontrolador que usarás, también puede ser esp32-c3
 idf.py build # si este paso falla es porque no configuraste las variables de entorno, recuerda el paso . ./export.sh.
 ```
 
@@ -117,6 +118,7 @@ Restarting now.
 ```
 
 Ahora que todo funciona hablemos del contenido de `hello_world_main.c` y la salida observada en la consola. 👩‍💻
+
 ## Creando nuestra propia aplicación
 
 Para crear nuestra propia aplicación basta con copiar cualquier ejemplo de `esp-idf` a una carpeta personal fuera de ese repositorio. En este tutorial usaremos la carpeta `proyectos`:
